@@ -12,7 +12,7 @@ class Process:
     def send_message(self, recipient_name, decision):
         """ simulates the process of sending a message in a distributed system,
         with special behavior for a faulty process (specifically P) 
-        to exhibit malicious activity such as denying to receive messages from R and S
+        to exhibit malicious activity such as denying to send messages to R and S
         """
         if self.is_faulty and self.name == "P" and recipient_name in ["R", "S"]:
             print(f"Process {self.name} is denying communication to {recipient_name}")
