@@ -9,16 +9,29 @@ class Process:
         self.is_faulty = is_faulty
         self.messages = {}
 
-    def send_message(self, recipient_name, decision) -> str:
-        if self.is_faulty:
-            decision = "arbitrary decision"  
-        # Simulating the sending message action to another process by RPC
+    def send_message(self, recipient_name, decision):
+        """ simulates the process of sending a message in a distributed system,
+        with special behavior for a faulty process (specifically P) 
+        to exhibit malicious activity such as denying to receive messages from R and S
+        """
+        if self.is_faulty and self.name == "P" and recipient_name in ["R", "S"]:
+            print(f"Process {self.name} is denying communication to {recipient_name}")
+            return f"{self.name} denied communication to {recipient_name}"
+        # creating a dynamic link that uses:
+        # P's port, unicode value of recipient_name minus the unicode value of P
+        # eg; 8000 + 81 for Q - 80 for P we get port 8001 which will be the recipients port
         recipient_proxy = xmlrpc.client.ServerProxy(f"http://localhost:{8000 + ord(recipient_name) - ord('P')}/")
+        print(f"{self.name} sent decision '{decision}' to {recipient_name}") 
         recipient_proxy.receive_message(self.name, decision)
+    
         return f"{self.name} sent decision '{decision}' to {recipient_name}"
 
     def receive_message(self, sender, decision) -> str:
+            # Only process messages if the process is not faulty
+        if self.is_faulty:
+            return f"{self.name} (faulty) ignored message from {sender}"
         self.messages[sender] = decision
+        print(f"{self.name} received decision '{decision}' from {sender}")
         return f"{self.name} received decision '{decision}' from {sender}"
 
     def finalize_decision(self) -> str:
@@ -27,6 +40,8 @@ class Process:
 
         decisions = list(self.messages.values())
         majority = max(set(decisions), key=decisions.count)
+        print(f"majority is : {majority}")
+        
         return majority
 
 def run_server(name, port, is_faulty):

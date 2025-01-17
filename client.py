@@ -20,6 +20,11 @@ if __name__ == "__main__":
                 sender_proxy.send_message(recipient_name, decision)
                 time.sleep(0.1)
 
+    time.sleep(0.5)
+
 
     for name, proxy in processes.items():
-        print(f"Process {name} finalized decision: {proxy.finalize_decision()}")
+        try:
+            print(f"Process {name} finalized decision: {proxy.finalize_decision()}")
+        except Exception as e:
+            print(f"Error finalizing decision for {name}: {e}")
