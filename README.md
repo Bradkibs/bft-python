@@ -1,6 +1,3 @@
-Here’s a well-formatted `README.md` file for your GitHub repository:
-
-```markdown
 # Byzantine Fault Tolerance Simulation
 
 This project simulates a distributed system based on the Byzantine Generals analogy, where four processes (P, Q, R, and S) attempt to reach an agreement on a task. Process P is intentionally made faulty to demonstrate malicious behavior, specifically denying communication with other processes (R and S). The system uses XML-RPC (Remote Procedure Calls) to facilitate inter-process communication.
@@ -32,6 +29,7 @@ The system uses XML-RPC servers and clients to simulate the communication betwee
 ## Setup Instructions
 
 1. **Clone the Repository**:
+
 ```
 
 git clone <repo url which should end with .git>
@@ -40,24 +38,25 @@ cd <repo directory name>
 ```
 
 2. **Install Python (if not already installed)**:
-Ensure that Python 3.x is installed on your machine. You can download it from [python.org](https://www.python.org/).
+   Ensure that Python 3.x is installed on your machine. You can download it from [python.org](https://www.python.org/).
 
 3. **Install Required Libraries**:
-You can install the required libraries using `pip`:
+   You can install the required libraries using `pip`:
+
 ```
 
 pip install xmlrpc
 
-````
+```
 
 ## Running the Code
 
 1. **Start the Server**:
-To simulate the processes, first run the server script. This will start each process (P, Q, R, and S) on different ports.
+   To simulate the processes, first run the server script. This will start each process (P, Q, R, and S) on different ports.
 
 ```bash
 python server.py
-````
+```
 
 2. **Run the Client**:
    In another terminal, run the client script. The client will attempt to send decisions to each of the other processes and finalize the decision based on the responses.
